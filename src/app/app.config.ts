@@ -2,7 +2,14 @@ import { ApplicationConfig, provideExperimentalZonelessChangeDetection } from '@
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
+import { provideHttpClient } from '@angular/common/http';
+import { withInterceptors } from '@angular/common/http';
+import { employeeInterceptor } from './shared/interceptors/employee.interceptor';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideExperimentalZonelessChangeDetection(), provideRouter(routes)]
+  providers: [
+    provideExperimentalZonelessChangeDetection(),
+    provideHttpClient(withInterceptors([employeeInterceptor])),
+    provideRouter(routes)
+  ]
 };
