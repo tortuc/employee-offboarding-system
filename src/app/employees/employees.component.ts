@@ -13,10 +13,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
+import { JoinFieldsPipe } from '../shared/pipes/join-fields.pipe';
 
 @Component({
   selector: 'app-employees',
-  imports: [MatTableModule, MatSortModule, MatFormFieldModule, MatInputModule, MatPaginatorModule, MatProgressSpinnerModule, MatIconModule, RouterLink, MatSelectModule, FormsModule],
+  imports: [
+    MatTableModule, MatSortModule, MatFormFieldModule, MatInputModule, MatPaginatorModule, MatProgressSpinnerModule,
+    MatIconModule, RouterLink, MatSelectModule, FormsModule, JoinFieldsPipe
+  ],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.scss'
 })
@@ -26,7 +30,7 @@ export class EmployeesComponent implements AfterViewInit {
 
   public readonly displayedColumns: string[] = ['name', 'department', 'email', 'equipments', 'status'];
   public readonly isLoading: WritableSignal<boolean> = signal(true);
-  public readonly dataSource: MatTableDataSource<IEmployee & { equipments: string[] }> = new MatTableDataSource<IEmployee & { equipments: string[] }>([]);
+  public readonly dataSource: MatTableDataSource<IEmployee> = new MatTableDataSource<IEmployee>([]);
   public readonly filterableColumns: Array<keyof IEmployee> = ['name', 'department'];
 
   @ViewChild(MatPaginator) private readonly paginator!: MatPaginator;
@@ -42,20 +46,23 @@ export class EmployeesComponent implements AfterViewInit {
       .subscribe();
 
     effect(() => {
-      this.dataSource.data = this.employeeService.employees().map(e => ({
-        ...e,
-        equipments: e.equipments.map(e => e.name)
-      })) as Array<IEmployee & { equipments: string[] }>;
+      this.dataSource.data = this.employeeService.employees();
     });
   }
 
   public ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.dataSource.filterPredicate = (row: IEmployee & { equipments: string[]}, filter: string) => {
-      return this.filterableColumns.length
-        ? this.filterableColumns.some(e => `${row[e]}`?.toLowerCase()?.includes(filter) ?? false)
-        : true;
+    this.dataSource.filterPredicate = (row: IEmployee, filter: string) => {
+
+      if (!this.filterableColumns.length) return true;
+      else {
+        return this.filterableColumns.some(e => {
+          return e === 'equipments'
+            ? row.equipments.map(e => e.name).join(', ').toLowerCase().includes(filter)
+            : (`${row[e]}`?.toLowerCase()?.includes(filter) ?? false)
+        })
+      }
     }
   }
 
