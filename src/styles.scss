@@ -1,4 +1,103 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.mt-3 {
+  margin-top: 1rem;
+}
+
+.px-4 {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.gap-3 {
+  gap: 1rem;
+}
+
+.h-100 {
+  height: 100%;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.w-50 {
+  width: 50%;
+}
+
+.word-break {
+  word-break: break-word;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.d-none {
+  display: none !important;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.justify-content-end {
+  justify-content: flex-end;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.success-snackbar {
+  --mat-sys-inverse-surface: #008000;
+  --mat-sys-inverse-on-surface: #fff;
+  --mat-sys-inverse-primary: #fff;
+}
+
+.error-snackbar {
+  --mat-sys-inverse-surface: #ff0000;
+  --mat-sys-inverse-on-surface: #fff;
+  --mat-sys-inverse-primary: #fff;
+}
+
+.responsive-table {
+  .responsive-table-body {
+    overflow: auto;
+
+    table {
+      th {
+        white-space: nowrap;
+      }
+
+      .mat-mdc-row:hover .mat-mdc-cell {
+        background-color: #8080801f;
+      }
+    }
+  }
+}
