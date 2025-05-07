@@ -36,7 +36,7 @@ export class DialogOffboardComponent {
       streetLine1: new FormControl('', [Validators.required]),
       city: new FormControl('', [Validators.required]),
       country: new FormControl('', [Validators.required]),
-      postalCode: new FormControl('', [Validators.required]),
+      postalCode: new FormControl('', [Validators.required, FormValidators.isPostalCode]),
     })
   });     
 
@@ -65,7 +65,7 @@ export class DialogOffboardComponent {
               panelClass: ['success-snackbar']
             }
           );
-          this.dialogRef.close(true)
+          this.dialogRef.close(true);
         },
         error: () => {
           this.snackBar.open(

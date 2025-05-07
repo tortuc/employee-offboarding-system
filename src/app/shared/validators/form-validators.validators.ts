@@ -16,4 +16,11 @@ export class FormValidators {
             : new RegExp(PATTERNS.PHONE).test(c.value);
         return valid ? null : {isPhoneNumber: true};
     }
+
+    static isPostalCode(c: FormControl): ValidationErrors | null {
+        const valid = !c.value
+            ? true
+            : new RegExp(PATTERNS.POSTAL_CODE).test(c.value);
+        return valid ? null : {isPostalCode: true};
+    }
 }
