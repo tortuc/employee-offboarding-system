@@ -46,7 +46,8 @@ ng serve
 - `src/app/shared/models/` - TypeScript interfaces and enums
 - `src/app/shared/services/` - Angular services
 - `src/app/shared/interceptors/` - HTTP interceptors for API mocking
-- `src/app/shared/validators/` - Customized form validators
+- `src/app/shared/validators/` - Customized Angular form validators
+- `src/app/shared/pipes/` - Customized Angular pipes
 
 ## Assumptions
 
@@ -60,7 +61,7 @@ ng serve
 8. Customized form validators are used for offboard form
 9. Employee.service uese RxJs operators to update the global state
 10. The application uses Zoneless Change Detection implemented with Angular signals for performance optimization.
-11. Filtering for special fields in tables is handled using a customized filterPredicate.
+11. Filtering for special fields in tables is handled using a customized filterPredicate. e.g: "macbook air, magic mouse" for equipments
 
 ## Dependencies
 
