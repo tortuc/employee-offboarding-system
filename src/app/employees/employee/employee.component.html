@@ -11,7 +11,7 @@
         class="offboard-button"
         [disabled]="isLoading() || employee()?.status !== Status.ACTIVE"
         (click)="openOffboardDialog()">
-        @if(isLoading()) { <mat-spinner strokeWidth="1" diameter="25" /> }
+        @if(isLoading()) { <mat-spinner strokeWidth="1" diameter="20" /> }
         @else { Offboard }
     </button>
 </div>
@@ -61,7 +61,7 @@
                     </table>
                 </div>
                 <mat-paginator
-                    [class.d-none]="isLoading() || dataSource.filteredData.length <= 10"
+                    [class.d-none]="dataSource.filteredData.length <= 10"
                     [pageSizeOptions]="[10]"
                 />
             </div>

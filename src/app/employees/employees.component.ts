@@ -11,10 +11,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
+import { FormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-employees',
-  imports: [MatTableModule, MatSortModule, MatFormFieldModule, MatInputModule, MatPaginatorModule, MatProgressSpinnerModule, MatIconModule, RouterLink],
+  imports: [MatTableModule, MatSortModule, MatFormFieldModule, MatInputModule, MatPaginatorModule, MatProgressSpinnerModule, MatIconModule, RouterLink, MatSelectModule, FormsModule],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.scss'
 })
@@ -25,7 +27,8 @@ export class EmployeesComponent implements AfterViewInit {
   public readonly displayedColumns: string[] = ['name', 'department', 'email', 'equipments', 'status'];
   public readonly isLoading: WritableSignal<boolean> = signal(true);
   public readonly dataSource: MatTableDataSource<IEmployee & { equipments: string[] }> = new MatTableDataSource<IEmployee & { equipments: string[] }>([]);
-  
+  public readonly filterableColumns: Array<keyof IEmployee> = ['name', 'department'];
+
   @ViewChild(MatPaginator) private readonly paginator!: MatPaginator;
   @ViewChild(MatSort) private readonly sort!: MatSort;
   @ViewChild(MatInput) private readonly input!: MatInput;
@@ -49,6 +52,11 @@ export class EmployeesComponent implements AfterViewInit {
   public ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.dataSource.filterPredicate = (row: IEmployee & { equipments: string[]}, filter: string) => {
+      return this.filterableColumns.length
+        ? this.filterableColumns.some(e => `${row[e]}`?.toLowerCase()?.includes(filter) ?? false)
+        : true;
+    }
   }
 
   public clearFilter(): void {

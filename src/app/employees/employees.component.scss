@@ -1,3 +1,9 @@
 .no-data-row {
     height: 574px;
 }
+
+@media screen and (max-width: 650px) {
+    .toolbar-container {
+        flex-direction: column;
+    }
+}

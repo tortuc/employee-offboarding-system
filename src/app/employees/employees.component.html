@@ -1,4 +1,21 @@
-<div class="d-flex justify-content-end">
+<div class="d-flex flex-wrap justify-content-between toolbar-container">
+    <mat-form-field>
+        <mat-label>Filterable Columns</mat-label>
+        <mat-select [(ngModel)]="filterableColumns" multiple>
+            <mat-select-trigger>
+                {{filterableColumns[0] || ''}}
+                @if ((filterableColumns.length || 0) > 1) {
+                    <span class="example-additional-selection">
+                        (+{{(filterableColumns.length || 0) - 1}} {{filterableColumns.length === 2 ? 'other' : 'others'}})
+                    </span>
+                }
+            </mat-select-trigger>
+            @for (topping of displayedColumns; track topping) {
+                <mat-option [value]="topping">{{topping}}</mat-option>
+            }
+        </mat-select>
+    </mat-form-field>
+
     <mat-form-field>
         <mat-label>Filter</mat-label>
         <input matInput (keyup)="applyFilter()" placeholder="Ex. Mia" #input />
@@ -59,7 +76,7 @@
         </table>
     </div>
     <mat-paginator
-        [class.d-none]="isLoading() || dataSource.filteredData.length <= 10"
+        [class.d-none]="dataSource.filteredData.length <= 10"
         [pageSizeOptions]="[10]"
     />
 </div>
