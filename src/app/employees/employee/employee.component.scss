@@ -1,0 +1,30 @@
+.equipment-card {
+    min-height: 340px;
+}
+
+.details-card {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    @media screen and (max-width: 650px) {
+        grid-template-columns: repeat(1, 100px 1fr);
+    }
+
+    .details-card-field-name {
+        width: 150px;
+        display: inline-block;
+    }
+}
+
+.spinner-container {
+    margin-top: 130px;
+}
+
+.offboard-title {
+    min-height: 1.5em;
+}
+
+.offboard-button {
+    min-width: 105px;
+}
+

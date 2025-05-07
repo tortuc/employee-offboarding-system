@@ -1,0 +1,70 @@
+<div>
+    <a mat-button [routerLink]="['/employees']">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+        Back
+    </a>
+</div>
+<div class="px-4 d-flex justify-content-between align-items-center">
+    <h2 class="offboard-title">{{ employee()?.name }}</h2>
+    <button
+        mat-raised-button
+        class="offboard-button"
+        [disabled]="isLoading() || employee()?.status !== Status.ACTIVE"
+        (click)="openOffboardDialog()">
+        @if(isLoading()) { <mat-spinner strokeWidth="1" diameter="25" /> }
+        @else { Offboard }
+    </button>
+</div>
+<div class="px-4">
+    <mat-card appearance="outlined">
+        <mat-card-header>
+            <mat-card-title>Employee Details</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="details-card">
+            <P class="details-card-field-name">Full Name:</P>
+            <p class="word-break">{{ employee()?.name }}</p>
+            <P class="details-card-field-name">Email:</P>
+            <p class="word-break">{{ employee()?.email }}</p>
+            <P class="details-card-field-name">Department:</P>
+            <p class="word-break">{{ employee()?.department }}</p>
+            <P class="details-card-field-name">Status:</P>
+            <p class="word-break">{{ employee()?.status }}</p>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card appearance="outlined" class="mt-3">
+        <mat-card-header>
+            <mat-card-title>Equipment</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="equipment-card">
+            <mat-form-field class="mt-3 w-100">
+                <mat-label>Filter</mat-label>
+                <input matInput (keyup)="applyFilter()" placeholder="Ex. Mia" #input />
+                <mat-icon matSuffix [class.cursor-pointer]="input?.value" (click)="clearFilter()">
+                    {{ input?.value ? 'close' : 'search' }}
+                </mat-icon>
+            </mat-form-field>
+            <div class="responsive-table">
+                <div class="responsive-table-body">
+                    <table mat-table [dataSource]="dataSource">
+                        <ng-container matColumnDef="name">
+                            <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+                        </ng-container>
+        
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                        <tr class="mat-row" *matNoDataRow>
+                            <td class="text-center">
+                                @if (!input?.value) { No data }
+                                @else { data matching the filter "{{ input?.value }}" }
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <mat-paginator
+                    [class.d-none]="isLoading() || dataSource.filteredData.length <= 10"
+                    [pageSizeOptions]="[10]"
+                />
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
