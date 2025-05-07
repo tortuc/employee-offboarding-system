@@ -1,0 +1,18 @@
+:host {
+    box-sizing: border-box;
+}
+
+main {
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 100px 1rem;
+    box-sizing: inherit;
+    position: relative;
+}
+
+.content {
+    width: 100%;
+    max-width: 1200px;
+}
