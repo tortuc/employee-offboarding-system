@@ -1,48 +1,114 @@
 <h2 mat-dialog-title>
     <div class="d-flex justify-content-between align-items-center">
-        Offboard
+        Offboard Employee
         @if(isLoading()) {
             <mat-spinner strokeWidth="1" diameter="25" />
         } 
     </div>
 </h2>
 <mat-dialog-content>
-    <form [formGroup]="formGroup">
+    <form [formGroup]="formGroup" class="offboard-form">
         <mat-form-field class="w-100">
             <mat-label>Receiver</mat-label>
             <input matInput placeholder="Ex. John Doe" [formControl]="receiverFormControl" />
+            @if(receiverFormControl.touched && receiverFormControl.errors) {
+                <mat-error>
+                    @if(receiverFormControl.errors['required']) {
+                        Receiver name is required
+                    }
+                </mat-error>
+            }
         </mat-form-field>
         <mat-form-field class="w-100">
             <mat-label>Email</mat-label>
             <input matInput placeholder="Ex. john.d@company.com" formControlName="email" />
+            @if(formGroup.get('email')?.touched && formGroup.get('email')?.errors) {
+                <mat-error>
+                    @if(formGroup.get('email')?.errors?.['required']) {
+                        Email is required
+                    }
+                    @if(formGroup.get('email')?.errors?.['isEmail']) {
+                        Please enter a valid email address
+                    }
+                </mat-error>
+            }
         </mat-form-field>
         <mat-form-field class="w-100">
             <mat-label>Phone</mat-label>
             <input matInput placeholder="Ex. +1234567890" formControlName="phone" />
+            @if(formGroup.get('phone')?.touched && formGroup.get('phone')?.errors) {
+                <mat-error>
+                    @if(formGroup.get('phone')?.errors?.['required']) {
+                        Phone number is required
+                    }
+                    @if(formGroup.get('phone')?.errors?.['isPhoneNumber']) {
+                        Please enter a valid phone number
+                    }
+                </mat-error>
+            }
         </mat-form-field>
-        <div formGroupName="address">
+
+        <div formGroupName="address" class="address-group">
             <mat-form-field class="w-100">
                 <mat-label>Street Line</mat-label>
                 <input matInput placeholder="Ex. 123 Main St" formControlName="streetLine1" />
+                @if(formGroup.get('address.streetLine1')?.touched && formGroup.get('address.streetLine1')?.errors) {
+                    <mat-error>
+                        @if(formGroup.get('address.streetLine1')?.errors?.['required']) {
+                            Street address is required
+                        }
+                    </mat-error>
+                }
             </mat-form-field>
             <div class="d-flex gap-3">
                 <mat-form-field class="w-50">
                     <mat-label>City</mat-label>
                     <input matInput placeholder="Ex. New York" formControlName="city" />
+                    @if(formGroup.get('address.city')?.touched && formGroup.get('address.city')?.errors) {
+                        <mat-error>
+                            @if(formGroup.get('address.city')?.errors?.['required']) {
+                                City is required
+                            }
+                        </mat-error>
+                    }
                 </mat-form-field>
                 <mat-form-field class="w-50">
                     <mat-label>Postal Code</mat-label>
                     <input matInput placeholder="Ex. 10001" formControlName="postalCode" />
+                    @if(formGroup.get('address.postalCode')?.touched && formGroup.get('address.postalCode')?.errors) {
+                        <mat-error>
+                            @if(formGroup.get('address.postalCode')?.errors?.['required']) {
+                                Postal code is required
+                            }
+                            @if(formGroup.get('address.postalCode')?.errors?.['isPostalCode']) {
+                                Please enter a valid postal code
+                            }
+                        </mat-error>
+                    }
                 </mat-form-field>
             </div>
             <mat-form-field class="w-100">
                 <mat-label>Country</mat-label>
                 <input matInput placeholder="Ex. United States" formControlName="country" />
+                @if(formGroup.get('address.country')?.touched && formGroup.get('address.country')?.errors) {
+                    <mat-error>
+                        @if(formGroup.get('address.country')?.errors?.['required']) {
+                            Country is required
+                        }
+                    </mat-error>
+                }
             </mat-form-field>
         </div>
         <mat-form-field class="w-100">
             <mat-label>Note</mat-label>
-            <textarea matInput placeholder="Ex. This is a note" formControlName="note"></textarea>
+            <textarea matInput placeholder="Ex. This is a note" formControlName="note" rows="3"></textarea>
+            @if(formGroup.get('note')?.touched && formGroup.get('note')?.errors) {
+                <mat-error>
+                    @if(formGroup.get('note')?.errors?.['required']) {
+                        Note is required
+                    }
+                </mat-error>
+            }
         </mat-form-field>
     </form>
 </mat-dialog-content>

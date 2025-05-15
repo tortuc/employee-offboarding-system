@@ -45,13 +45,20 @@ export class DialogOffboardComponent {
   }
 
   public onConfirm(): void {
-    if (this.formGroup.invalid) return;
+    if (this.formGroup.invalid) {
+      this.markFormGroupTouched(this.formGroup);
+      return;
+    }
+    
     this.isLoading.set(true);
     this.formGroup.disable();
     this.employeeService.offboardEmployee(this.employeeId, this.formGroup.getRawValue() as IOffboard)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        finalize(() => this.isLoading.set(false))
+        finalize(() => {
+          this.isLoading.set(false);
+          this.formGroup.enable();
+        })
       )
       .subscribe({
         next: () => {
@@ -67,9 +74,9 @@ export class DialogOffboardComponent {
           );
           this.dialogRef.close(true);
         },
-        error: () => {
+        error: (error) => {
           this.snackBar.open(
-            'Error offboarding employee',
+            error?.message || 'Error offboarding employee',
             'Close',
             {
               duration: 2000,
@@ -80,5 +87,14 @@ export class DialogOffboardComponent {
           );
         }
       });
+  }
+
+  private markFormGroupTouched(formGroup: FormGroup): void {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 }
